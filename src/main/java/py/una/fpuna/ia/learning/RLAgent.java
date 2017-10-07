@@ -76,39 +76,45 @@ public class RLAgent {
         //0:no hay ganador
         int jugador = 1;
         int contrario = 2;
-        if ((tablero[0][0] == tablero[0][1] && tablero[0][1] == tablero[0][2] && tablero[0][0] == jugador)
-                || (tablero[1][0] == tablero[1][1] && tablero[1][1] == tablero[1][2] && tablero[1][0] == jugador)
-                || (tablero[2][0] == tablero[2][1] && tablero[2][1] == tablero[2][2] && tablero[2][0] == jugador)
-                || (tablero[0][0] == tablero[1][0] && tablero[1][0] == tablero[2][0] && tablero[0][0] == jugador)
-                || (tablero[0][1] == tablero[1][1] && tablero[1][1] == tablero[2][1] && tablero[0][1] == jugador)
-                || (tablero[0][2] == tablero[1][2] && tablero[1][2] == tablero[2][2] && tablero[0][2] == jugador)
-                || (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] == jugador)
-                || (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] && tablero[0][2] == jugador)) {
-
-            return jugador; //gana jugador
-        } else if ((tablero[0][0] == tablero[0][1] && tablero[0][1] == tablero[0][2] && tablero[0][0] == contrario)
-                || (tablero[1][0] == tablero[1][1] && tablero[1][1] == tablero[1][2] && tablero[1][0] == contrario)
-                || (tablero[2][0] == tablero[2][1] && tablero[2][1] == tablero[2][2] && tablero[2][0] == contrario)
-                || (tablero[0][0] == tablero[1][0] && tablero[1][0] == tablero[2][0] && tablero[0][0] == contrario)
-                || (tablero[0][1] == tablero[1][1] && tablero[1][1] == tablero[2][1] && tablero[0][1] == contrario)
-                || (tablero[0][2] == tablero[1][2] && tablero[1][2] == tablero[2][2] && tablero[0][2] == contrario)
-                || (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] == contrario)
-                || (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] && tablero[0][2] == contrario)) {
-
-            return contrario; //pierde jugador
-        } else {
-
-            for (int i = 0; i < tablero.length; i++) {
-                for (int j = 0; j < tablero[0].length; j++) {
-                    if (tablero[i][j] == 0) { //esta vacio
-                        //no es empate
-                        return 0;
-                    }
-                }
-            }
-
-            return 3; //es empate
-        }
+        
+        if (this.fichasB == 0) return jugador;
+        else if (this.fichasA == 0) return contrario;
+        else if (this.noMovA == this.noMovB && this.noMovA) return 3; // empate
+        else return 0; // continua el juego
+//        
+//        if ((tablero[0][0] == tablero[0][1] && tablero[0][1] == tablero[0][2] && tablero[0][0] == jugador)
+//                || (tablero[1][0] == tablero[1][1] && tablero[1][1] == tablero[1][2] && tablero[1][0] == jugador)
+//                || (tablero[2][0] == tablero[2][1] && tablero[2][1] == tablero[2][2] && tablero[2][0] == jugador)
+//                || (tablero[0][0] == tablero[1][0] && tablero[1][0] == tablero[2][0] && tablero[0][0] == jugador)
+//                || (tablero[0][1] == tablero[1][1] && tablero[1][1] == tablero[2][1] && tablero[0][1] == jugador)
+//                || (tablero[0][2] == tablero[1][2] && tablero[1][2] == tablero[2][2] && tablero[0][2] == jugador)
+//                || (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] == jugador)
+//                || (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] && tablero[0][2] == jugador)) {
+//
+//            return jugador; //gana jugador
+//        } else if ((tablero[0][0] == tablero[0][1] && tablero[0][1] == tablero[0][2] && tablero[0][0] == contrario)
+//                || (tablero[1][0] == tablero[1][1] && tablero[1][1] == tablero[1][2] && tablero[1][0] == contrario)
+//                || (tablero[2][0] == tablero[2][1] && tablero[2][1] == tablero[2][2] && tablero[2][0] == contrario)
+//                || (tablero[0][0] == tablero[1][0] && tablero[1][0] == tablero[2][0] && tablero[0][0] == contrario)
+//                || (tablero[0][1] == tablero[1][1] && tablero[1][1] == tablero[2][1] && tablero[0][1] == contrario)
+//                || (tablero[0][2] == tablero[1][2] && tablero[1][2] == tablero[2][2] && tablero[0][2] == contrario)
+//                || (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] == contrario)
+//                || (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] && tablero[0][2] == contrario)) {
+//
+//            return contrario; //pierde jugador
+//        } else {
+//
+//            for (int i = 0; i < tablero.length; i++) {
+//                for (int j = 0; j < tablero[0].length; j++) {
+//                    if (tablero[i][j] == 0) { //esta vacio
+//                        //no es empate
+//                        return 0;
+//                    }
+//                }
+//            }
+//
+//            return 3; //es empate
+//        }
     }
 
     private double calculateReward(int[][] tablero, int jugador) {
@@ -612,16 +618,16 @@ public class RLAgent {
             } else {
                 jugarRandom(contrario);
             }
-
+            
             //actualizar resultado
             gameResult = calculateResult(tablero);
             if (gameResult > 0) { //ya hay resultado
-                if (gameResult != jugador && entrenar) //perdimos, actualizar tablero
+                if (gameResult != jugador && entrenar) //perdimos o empatamos, actualizar tablero
                 {
                     updateProbability(lastTablero, calculateReward(tablero, jugador), jugador);
                 }
                 break;
-            }
+            } // si es cero, continua el juego.
 
             turno = 2 - turno + 1;
             //jugadas--;
