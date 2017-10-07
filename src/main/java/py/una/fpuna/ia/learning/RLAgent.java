@@ -386,6 +386,16 @@ public class RLAgent {
                     // aplicar jugada si alguna ficha cambio de lugar
                     if (sePudoComer || sePudoMover) {
                         this.swap(i, j, row, column);
+                        // si fue una reina la que se movio, o es una nueva reina
+                        boolean esReinaExistente = this.reinasA.contains(new int[]{i,j});
+                        if (esReinaExistente || row == 0) {
+                            // registrar nueva reina en la lista.
+                            this.reinasA.add(new int[]{row,column});
+                            // eliminar de la lista
+                            if (esReinaExistente)
+                                this.reinasA.remove(this.reinasA.indexOf(new int[]{i,j}));                            
+                        }
+                        
                         // si comio alguna ficha del oponente
                         if(sePudoComer) {
                             this.fichasB--;
