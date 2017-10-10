@@ -224,8 +224,9 @@ public class RLAg_Damas {
                         
                         if (this.tablero[k][l] == 0 && this.tablero[k+1][l+1] == contrario) { // intentar comer, norOeste
                             
-                            // salta dos casillas
+                            // salta dos casillas y come
                             this.swap(i, j, k, l);
+                            this.tablero[k+1][l+1] = 0;
                             // actualiza cantidad de fichas del enemigo
                             this.fichasB--;
                             
@@ -241,6 +242,7 @@ public class RLAg_Damas {
                             
                             /* Restablecer los cambios para siguiente evaluacion. */
                             this.swap(i, j, k, l);
+                            this.tablero[k+1][l+1] = contrario;
                             this.fichasB++;
                             sePudoComer = true;
                         }
@@ -251,6 +253,7 @@ public class RLAg_Damas {
                         if (this.tablero[k][ll] == 0 && this.tablero[k+1][ll-1] == contrario) { // intentar comer, norEste
                             
                             this.swap(i, j, k, ll);
+                            this.tablero[k+1][ll-1] = 0;
                             this.fichasB--;
                             
                             /* Evaluar deseabilidad. */
@@ -265,6 +268,7 @@ public class RLAg_Damas {
                             
                             /* Restablecer los cambios para siguiente evaluacion. */
                             this.swap(i, j, k, ll);
+                            this.tablero[k+1][ll-1] = contrario;
                             this.fichasB++;
                             sePudoComer = true;
                         }
@@ -283,6 +287,7 @@ public class RLAg_Damas {
                             if (tablero[k][l]==0 && tablero[k-1][l+1]==contrario) { // intentar comer, surOeste
                                 
                                 this.swap(i, j, k, l);
+                                this.tablero[k-1][l+1] = 0;
                                 this.fichasB--;
                                 
                                 /* Evaluar deseabilidad. */
@@ -297,6 +302,7 @@ public class RLAg_Damas {
                                 
                                 /* Restablecer los cambios para siguiente evaluacion. */
                                 this.swap(i, j, k, l);
+                                this.tablero[k-1][l+1] = contrario;
                                 this.fichasB++;
                                 sePudoComer = true;
                             }
@@ -307,6 +313,7 @@ public class RLAg_Damas {
                             if (this.tablero[k][ll] == 0 && this.tablero[k-1][ll-1] == contrario) { // intentar comer, surEste
 
                                 this.swap(i, j, k, ll);
+                                this.tablero[k-1][ll-1] = 0;
                                 this.fichasB--;
 
                                 /* Evaluar deseabilidad. */
@@ -321,6 +328,7 @@ public class RLAg_Damas {
 
                                 /* Restablecer los cambios para siguiente evaluacion. */
                                 this.swap(i, j, k, ll);
+                                this.tablero[k-1][ll-1] = contrario;
                                 this.fichasB++;
                                 sePudoComer = true;
                             }
@@ -430,12 +438,13 @@ public class RLAg_Damas {
             // si comio alguna ficha del oponente
             if(sePudoComer) {
 
+                int iEliminada = oldRow-(oldRow-row)/2, jEliminada = oldCol-(oldCol-column)/2;
+                this.tablero[iEliminada][jEliminada] = 0;
                 this.fichasB--;
-                int rBi = oldRow-(oldRow-row)/2, rBj = oldCol-(oldCol-column)/2;
 
                 // si era una reina del oponente
-                if (this.reinasB.contains(new int[] {rBi,rBj}))
-                    this.reinasB.remove(new int[] {rBi,rBj});
+                if (this.reinasB.contains(new int[] {iEliminada,jEliminada}))
+                    this.reinasB.remove(new int[] {iEliminada,jEliminada});
             }
         } else {
             this.noMovA = true;
@@ -650,13 +659,14 @@ public class RLAg_Damas {
                 // corresponde al turno del agente
                 if (jugador==this.jugadorAgente) {
                 
+                    int iEliminada = origRowCol.get(random)[0]-(origRowCol.get(random)[0]-filas.get(random))/2,
+                        jEliminada = origRowCol.get(random)[1]-(origRowCol.get(random)[1]-columnas.get(random))/2;
+                    this.tablero[iEliminada][jEliminada] = 0;
                     this.fichasB--; // actualiza cantidad total de ficha del enemigo
-                    int rBi = origRowCol.get(random)[0]-(origRowCol.get(random)[0]-filas.get(random))/2,
-                        rBj = origRowCol.get(random)[1]-(origRowCol.get(random)[1]-columnas.get(random))/2;
 
                     // si lo que se capturo es una reina del oponente
-                    if (this.reinasB.contains(new int[] {rBi,rBj}))
-                        this.reinasB.remove(new int[] {rBi,rBj}); // elimina de la lista de reinas del oponente
+                    if (this.reinasB.contains(new int[] {iEliminada,jEliminada}))
+                        this.reinasB.remove(new int[] {iEliminada,jEliminada}); // elimina de la lista de reinas del oponente
                     
                     boolean isReina = this.reinasA.contains(origRowCol.get(random));
                    
@@ -671,13 +681,14 @@ public class RLAg_Damas {
                     copiarTablero(tablero, lastTablero);
                 } else { // si es el oponente
                     
+                    int iEliminada = origRowCol.get(random)[0]-(origRowCol.get(random)[0]-filas.get(random))/2,
+                        jEliminada = origRowCol.get(random)[1]-(origRowCol.get(random)[1]-columnas.get(random))/2;
+                    this.tablero[iEliminada][jEliminada] = 0;
                     this.fichasA--;
-                    int rAi = origRowCol.get(random)[0]-(origRowCol.get(random)[0]-filas.get(random))/2,
-                        rAj = origRowCol.get(random)[1]-(origRowCol.get(random)[1]-columnas.get(random))/2;
 
                     // si lo que se capturo es una reina del agente
-                    if (this.reinasA.contains(new int[] {rAi,rAj}))
-                        this.reinasA.remove(new int[] {rAi,rAj});
+                    if (this.reinasA.contains(new int[] {iEliminada,jEliminada}))
+                        this.reinasA.remove(new int[] {iEliminada,jEliminada});
                     
                     boolean isReina = this.reinasB.contains(origRowCol.get(random));
                     
@@ -734,6 +745,7 @@ public class RLAg_Damas {
                     if (tablero[X1-1][Y1-1] == this.jugadorAgente && tablero[X2][Y2] == 0) { // se puede saltar y comer 1 ficha del agente
                         
                         swap(X1, Y1, X2, Y2);
+                        this.tablero[X1-1][Y1-1] = 0;
                         this.fichasA--;
 
                         // si la ficha del agente eliminada es una reina
@@ -755,6 +767,7 @@ public class RLAg_Damas {
                     if (tablero[X1-1][Y1+1] == this.jugadorAgente && tablero[X2][Y2] == 0) { // se puede saltar y comer 1 ficha del agente
                         
                         swap(X1, Y1, X2, Y2);
+                        this.tablero[X1-1][Y1+1] = 0;
                         this.fichasA--;
                         
                         if (this.reinasA.contains(new int[]{X1-1, Y1+1})) {
@@ -772,6 +785,7 @@ public class RLAg_Damas {
                     if (tablero[X1+1][Y1-1] == this.jugadorAgente && tablero[X2][Y2] == 0) { // se puede saltar y comer 1 ficha del agente
                         
                         swap(X1, Y1, X2, Y2);
+                        this.tablero[X1+1][Y1-1] = 0;
                         this.fichasA--;
                         
                         if (this.reinasA.contains(new int[]{X1+1, Y1-1})) {
@@ -789,6 +803,7 @@ public class RLAg_Damas {
                     if (tablero[X1+1][Y1+1] == this.jugadorAgente && tablero[X2][Y2] == 0) { // se puede saltar y comer 1 ficha del agente
                         
                         swap(X1, Y1, X2, Y2);
+                        this.tablero[X1+1][Y1+1] = 0;
                         this.fichasA--;
                         
                         if (this.reinasA.contains(new int[]{X1+1, Y1+1})) {
